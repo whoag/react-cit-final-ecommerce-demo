@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;1,200;1,300;1,400&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+body {
+  margin: 0;
+  font-family: 'Source Sans Pro', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, .footer, .navbar, .important, .styles, .sidebar{
+  font-family: 'Bebas Neue', cursive;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+.back{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero{
+  height: 350px !important;
+}
+.hero1{
+  background-image: url("../assets/pexels-henry-&-co-1210484.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.hero2{
+  background-image: url("../assets/pexels-terje-sollie-298863.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero3{
+  background-image: url("../assets/pexels-ylanite-koppens-934070.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.featured{
+  height: 400px;
+}
+
+.swiper-button-prev, .swiper-button-next{
+  color: pink !important;
+}

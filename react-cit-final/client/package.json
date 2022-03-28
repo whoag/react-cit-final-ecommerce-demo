@@ -1,0 +1,63 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@headlessui/react": "^1.4.3",
+    "@heroicons/react": "^1.0.5",
+    "@hookform/resolvers": "^2.8.8",
+    "@popperjs/core": "^2.11.3",
+    "@tailwindcss/aspect-ratio": "^0.4.0",
+    "@tailwindcss/forms": "^0.5.0",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "aos": "^2.3.4",
+    "axios": "^0.26.1",
+    "chart.js": "^3.7.1",
+    "passport": "^0.5.2",
+    "react": "^17.0.2",
+    "react-delay": "^0.1.0",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.28.1",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "5.0.0",
+    "react-spring": "^9.4.4",
+    "react-swiper": "^0.1.5",
+    "swiper": "8.0.0",
+    "web-vitals": "^2.1.4",
+    "webpack": "^5.70.0",
+    "yup": "^0.32.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.2",
+    "nodemon": "^2.0.15",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.16",
+    "webpack-cli": "^4.9.2"
+  }
+}
