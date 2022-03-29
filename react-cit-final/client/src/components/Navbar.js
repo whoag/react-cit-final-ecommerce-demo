@@ -1,10 +1,11 @@
 import {Fragment, useContext, useEffect, useRef, useState} from 'react'
 import { Dialog, Popover, Transition } from '@headlessui/react'
 import {HeartIcon, MenuIcon, ShoppingBagIcon, XIcon} from '@heroicons/react/outline'
-
+import logo from '../assets/logo.svg'
 import Delay from "react-delay";
 import {useSpring, animated, useChain, useSpringRef} from "react-spring";
 import {UserContext} from "../contexts/User";
+import {useNavigate} from "react-router-dom";
 const navigation = {
     pages: [
         {
@@ -30,6 +31,7 @@ export default function Navbar() {
     const [ state, dispatch ] = useContext(UserContext)
     const [auth, setAuth] = useState(false)
     const local =localStorage.getItem('auth')
+    const navigate = useNavigate();
     useEffect(()=>{
         if(local==='true'){
             setAuth(true)
@@ -37,6 +39,12 @@ export default function Navbar() {
             setAuth(false)
         }
     }, [local])
+
+    const signOut=()=>{
+        localStorage.setItem('auth', 'false')
+        setAuth(false)
+        navigate('/')
+    }
     return (
         <div className="bg-white navbar ">
             {/* Mobile menu */}
@@ -98,8 +106,7 @@ export default function Navbar() {
                                 </div>
                                 :<div className="border-t border-gray-200 py-6 px-4 space-y-6">
                                     <div className="flow-root">
-                                        <a onClick={()=>{localStorage.setItem('auth', 'false')
-                                            setAuth(false)}}
+                                        <a onClick={()=>{signOut()}}
                                            className="-m-2 p-2 block font-medium text-gray-900">
                                             Log out
                                         </a>
@@ -132,7 +139,12 @@ export default function Navbar() {
                             {/* Logo */}
                             <div className="ml-4 flex lg:ml-0">
                                 <a href="/">
-                                 <h1>I Want This</h1>
+                                <img
+                                src={logo}
+                                alt={""}
+                                height={50}
+                                width={50}
+                                />
                                 </a>
 
                             </div>
@@ -167,8 +179,8 @@ export default function Navbar() {
                                         <p className="desktop:text-xl text-sm font-medium text-gray-700 hover:text-secondary-700">
                                             Hello, {localStorage.getItem("name")}
                                         </p>
-                                        <a onClick={()=>{localStorage.setItem('auth', 'false')
-                                            setAuth(false)}}   className="desktop:text-xl text-sm font-medium text-gray-700 hover:text-secondary-700">
+                                        <a onClick={()=>{signOut()}}
+                                           className="desktop:text-xl text-sm font-medium text-gray-700 hover:text-secondary-700">
                                             Sign out
                                         </a>
                                     </div>
