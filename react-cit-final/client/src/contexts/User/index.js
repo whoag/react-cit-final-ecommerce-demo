@@ -9,12 +9,14 @@ export const UserProvider = ({ children }) => {
 
 
     useEffect(()=>{
+        let wishlists = state.wishlists.length
        if(state.auth){
           localStorage.setItem('id',state.id)
            localStorage.setItem('admin',state.admin)
            localStorage.setItem('email',state.email)
            localStorage.setItem('name',state.name)
            localStorage.setItem('auth',state.auth)
+           localStorage.setItem('wish',wishlists.toString())
        }
     }, [state])
     return (

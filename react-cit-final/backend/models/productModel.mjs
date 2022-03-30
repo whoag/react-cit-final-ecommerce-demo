@@ -18,10 +18,8 @@ const productSchema = mongoose.Schema({
         unique: true
     },
     image: {
-        type: Object,
-        required: false,
         data: Buffer,
-        unique: true
+        contentType: String
     },
     price: {
         type: Number,
@@ -33,7 +31,7 @@ const productSchema = mongoose.Schema({
         required: true
     }
 }, {
-    collection: 'product'
+    collection: 'products'
 })
 
 const Product = mongoose.model('Product', productSchema)

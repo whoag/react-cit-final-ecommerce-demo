@@ -6,6 +6,7 @@ import Delay from "react-delay";
 import {useSpring, animated, useChain, useSpringRef} from "react-spring";
 import {UserContext} from "../contexts/User";
 import {useNavigate} from "react-router-dom";
+import {Badge, Button, ButtonGroup} from "@mui/material";
 const navigation = {
     pages: [
         {
@@ -30,15 +31,19 @@ export default function Navbar() {
     const hoverItem = useRef(null)
     const [ state, dispatch ] = useContext(UserContext)
     const [auth, setAuth] = useState(false)
-    const local =localStorage.getItem('auth')
+    const [wishCount, setWishCount] = useState("")
+    const localAuth =localStorage.getItem('auth')
     const navigate = useNavigate();
+    const wish = localStorage.getItem('wish');
     useEffect(()=>{
-        if(local==='true'){
+        console.log(wish)
+        if(localAuth==='true'){
             setAuth(true)
+            setWishCount(wish)
         }else{
             setAuth(false)
         }
-    }, [local])
+    }, [localAuth, wishCount])
 
     const signOut=()=>{
         localStorage.setItem('auth', 'false')
@@ -191,8 +196,9 @@ export default function Navbar() {
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
                                     <a href="/wishlist" className="p-2 text-gray-400 hover:text-gray-500">
-                                        <span className="sr-only">Search</span>
-                                        <HeartIcon className="w-6 h-6" aria-hidden="true" />
+                                        <Badge color="error" badgeContent={wishCount}>
+                                            <HeartIcon className="w-6 h-6" aria-hidden="true" />{" "}
+                                        </Badge>
                                     </a>
                                 </div>
 
