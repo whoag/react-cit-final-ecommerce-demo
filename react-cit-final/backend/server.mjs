@@ -14,7 +14,6 @@ import cors from 'cors'
 import multer from 'multer'
 import Product from "./models/productModel.mjs";
 import * as fs from "fs";
-import * as path from "path";
 //connect database
 connectDB()
 
@@ -31,6 +30,7 @@ app.use(function(req, res, next) {
     next();
 });
 
+const path = "http://localhost:5000";
 app.use(passport.initialize());
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
@@ -63,25 +63,25 @@ app.use('/api/wishlist', wishlistRoutes)
 
 app.post('/api/products', upload.single('image'), async (req, res)=>{
     console.log(req)
-    // let product = {
-    //     name: req.body.name,
-    //     description: req.body.description,
-    //     price: req.body.price,
-    //     category_id: req.body.category_id,
-    //     image: {
-    //         data: fs.readFileSync(path.join('/api/products' + '/uploads/' +  req.data.body.image[0].name)),
-    //         contentType: req.data.body.image[0].type
-    //     }
-    // }
-    // await Product.create(product, (err, item) => {
-    //     if (err) {
-    //         return res.status(500).json({error: "Error adding product"});
-    //
-    //     } else {
-    //         // item.save();
-    //         return res.status(200).json({ error: "Product added" });
-    //     }
-    // })
+    let product = {
+        name: req.body.name,
+        description: req.body.description,
+        price: req.body.price,
+        category_id: req.body.category_id,
+        image: {
+            data: fs.readFileSync(path.join('/api/products' + '/uploads/' +  req.data.body.image[0].name)),
+            contentType: req.data.body.image[0].type
+        }
+    }
+    await Product.create(product, (err, item) => {
+        if (err) {
+            return res.status(500).json({error: "Error adding product"});
+
+        } else {
+            // item.save();
+            return res.status(200).json({ error: "Product added" });
+        }
+    })
 })
 app.post('/api/register', jsonParser, function (req, res)  {
     console.log(req.body)
