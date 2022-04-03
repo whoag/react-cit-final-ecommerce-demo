@@ -13,7 +13,9 @@ import User from "./models/usersModel.mjs";
 import cors from 'cors'
 import multer from 'multer'
 import Product from "./models/productModel.mjs";
+import path from 'path';
 import * as fs from "fs";
+import {GridFsStorage} from "multer-gridfs-storage";
 //connect database
 connectDB()
 
@@ -30,29 +32,28 @@ app.use(function(req, res, next) {
     next();
 });
 
-const path = "http://localhost:5000";
 app.use(passport.initialize());
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-const storage = multer.diskStorage({
-    //file destination
-    destination:function(req, file, callback){
-        callback(null, 'uploads')
-    },
-
-    filename: function (req, file, callback){
-        callback(null, Date.now()+file.name)
+const storage = new GridFsStorage({
+    url: "mongodb+srv://admin:Abezm5Buw1PwRuxU@cluster0.qas53.mongodb.net/wantThis",
+    options: { useNewUrlParser: true, useUnifiedTopology: true },
+    file: (req, file) => {
+        const match = ["image/png", "image/jpeg"];
+        if (match.indexOf(file.mimetype) === -1) {
+            const filename = `${file.originalname}`;
+            return filename;
+        }
+        return {
+            bucketName: "products",
+            filename: `${file.originalname}`,
+            metadata: req.body.slug
+        };
     }
 });
-
 //upload params for multer
-const upload = multer({
-    storage:storage,
-    limits:{
-        fieldSize: 1024*1024*3
-    },
-})
+const upload = multer({ storage: storage });
 
 //Creating API for user
 app.use('/api/users', userRoutes)
@@ -60,28 +61,23 @@ app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/wishlist', wishlistRoutes)
 
+const __dirname = path.resolve(path.dirname(''));
 
 app.post('/api/products', upload.single('image'), async (req, res)=>{
-    console.log(req)
-    let product = {
+    console.log(req.file.buffer)
+    let slug = req.body.name.replace(" ", "-").toLowerCase()
+    let product = new Product({
         name: req.body.name,
         description: req.body.description,
+        slug: slug,
         price: req.body.price,
         category_id: req.body.category_id,
-        image: {
-            data: fs.readFileSync(path.join('/api/products' + '/uploads/' +  req.data.body.image[0].name)),
-            contentType: req.data.body.image[0].type
-        }
-    }
-    await Product.create(product, (err, item) => {
-        if (err) {
-            return res.status(500).json({error: "Error adding product"});
+    });
+    product
+        .save()
+        .catch(err => console.log(err));
 
-        } else {
-            // item.save();
-            return res.status(200).json({ error: "Product added" });
-        }
-    })
+    Product.findOne({slug: slug})
 })
 app.post('/api/register', jsonParser, function (req, res)  {
     console.log(req.body)

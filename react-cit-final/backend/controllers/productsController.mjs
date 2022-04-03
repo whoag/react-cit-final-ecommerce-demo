@@ -23,3 +23,15 @@ export const getProductById  = asyncHandler(async(req, res) => {
     }
 })
 
+export const getProductBySlug  = asyncHandler(async(req, res) => {
+    const product = await Product.findById(req.params.slug)
+
+    //if user id match param id send user else throw error
+    if(product){
+        res.json(product)
+    }else{
+        res.status(404).json({message: "User not found"})
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
