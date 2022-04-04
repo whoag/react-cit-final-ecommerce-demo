@@ -11,6 +11,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  background-color: white;
 }
 h1, h2, h3, h4, .footer, .navbar, .important, .styles, .sidebar{
   font-family: 'Bebas Neue', cursive;

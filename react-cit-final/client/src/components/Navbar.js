@@ -48,7 +48,14 @@ export default function Navbar() {
     const signOut=()=>{
         localStorage.setItem('auth', 'false')
         setAuth(false)
+        localStorage.setItem('id',"")
+        localStorage.setItem('admin',"")
+        localStorage.setItem('email',"")
+        localStorage.setItem('name',"")
+        localStorage.setItem('auth',"")
+        localStorage.setItem('wish',"")
         navigate('/')
+
     }
     return (
         <div className="bg-white navbar ">

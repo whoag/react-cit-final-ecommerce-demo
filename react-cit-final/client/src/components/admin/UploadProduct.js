@@ -7,9 +7,9 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import mime from 'mime'
 const categories = [
-    { id: "6240bdc131afc5561dbcc157", name: 'Women', unavailable: false },
-    { id: "6240bd9c31afc5561dbcc156", name: 'Men', unavailable: false },
-    { id: "6240bddd31afc5561dbcc158", name: 'Accessories', unavailable: false },
+    { id: "Womens", name: 'Women', unavailable: false },
+    { id: "Mens", name: 'Men', unavailable: false },
+    { id: "Accessories", name: 'Accessories', unavailable: false },
 ]
 
 export default function UploadProduct() {
@@ -91,8 +91,8 @@ export default function UploadProduct() {
                                 <label htmlFor="category" >
                                     Category
                                 </label>
-                                <select name="category_id" id="category" className="w-2/5"
-                                        {...register('category_id')}
+                                <select name="category" id="category" className="w-2/5"
+                                        {...register('category')}
                                 >
                                     <option value="" disabled>Select</option>
                                     {categories.map((category, i)=>(

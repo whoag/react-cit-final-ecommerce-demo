@@ -36,42 +36,35 @@ app.use(passport.initialize());
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-const storage = new GridFsStorage({
-    url: "mongodb+srv://admin:Abezm5Buw1PwRuxU@cluster0.qas53.mongodb.net/wantThis",
-    options: { useNewUrlParser: true, useUnifiedTopology: true },
-    file: (req, file) => {
-        const match = ["image/png", "image/jpeg"];
-        if (match.indexOf(file.mimetype) === -1) {
-            const filename = `${file.originalname}`;
-            return filename;
-        }
-        return {
-            bucketName: "products",
-            filename: `${file.originalname}`,
-            metadata: req.body.slug
-        };
-    }
-});
 //upload params for multer
-const upload = multer({ storage: storage });
 
 //Creating API for user
 app.use('/api/users', userRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/wishlist', wishlistRoutes)
-
-const __dirname = path.resolve(path.dirname(''));
-
+app.use('/api/products/images', express.static('public'))
+const __dirname = await path.resolve(path.dirname(''));
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({storage: storage})
 app.post('/api/products', upload.single('image'), async (req, res)=>{
     console.log(req.file.buffer)
     let slug = req.body.name.replace(" ", "-").toLowerCase()
+
     let product = new Product({
         name: req.body.name,
         description: req.body.description,
         slug: slug,
         price: req.body.price,
-        category_id: req.body.category_id,
+        category: req.body.category,
+        image: req.file.originalname
     });
     product
         .save()
