@@ -25,8 +25,8 @@ export default function Home(){
                     </div>
 
                 </div>
-                <div className="w-full grid grid-cols-1 bg-pink-100 py-6 ">
-                    <h2 className="place-self-center text-4xl">FEATURED</h2>
+                <div className="w-full grid grid-cols-1 bg-pink-50 py-6 ">
+                    <h2 className="place-self-center text-4xl">ALL PRODUCTS</h2>
                     <FeaturedSlide/>
                 </div>
 

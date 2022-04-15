@@ -15,5 +15,8 @@ router.route('/').get(getProducts)
 // express router method to create route for getting users by id
 router.route('/:category').get(getProductByCategory)
 
+router.route('/:id').get(getProductById)
+
 router.route('/search/:slug').get(getProductBySlug)
+
 export default router

@@ -1,4 +1,4 @@
-import {Fragment, useState} from 'react'
+import {Fragment, useEffect, useState} from 'react'
 import {
     CalendarIcon,
     CheckIcon,
@@ -12,8 +12,9 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function WishTop() {
+export default function WishTop({amount}) {
     const [edit, setEdit] = useState(false);
+
     return (
         <div className="lg:flex lg:items-center lg:justify-between w-full h-1/4 ">
             <div className="flex-1 min-w-0">
@@ -21,7 +22,7 @@ export default function WishTop() {
                 <div className="mt-1 flex flex-col sm:flex-row sm:flex-wrap sm:mt-0 sm:space-x-6">
                     <div className="mt-2 flex items-center text-sm text-gray-500">
                         <HeartIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />
-                        100 products
+                        {amount} products
                     </div>
                     <div className="mt-2 flex items-center text-sm text-gray-500">
                         <CalendarIcon className="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" aria-hidden="true" />

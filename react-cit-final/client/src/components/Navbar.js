@@ -7,6 +7,7 @@ import {useSpring, animated, useChain, useSpringRef} from "react-spring";
 import {UserContext} from "../contexts/User";
 import {useNavigate} from "react-router-dom";
 import {Badge, Button, ButtonGroup} from "@mui/material";
+import {wishlistData} from "./data/WishlistData";
 const navigation = {
     pages: [
         {
@@ -28,18 +29,18 @@ const navigation = {
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
-    const hoverItem = useRef(null)
-    const [ state, dispatch ] = useContext(UserContext)
     const [auth, setAuth] = useState(false)
-    const [wishCount, setWishCount] = useState("")
+    const [wishCount, setWishCount] = useState(0)
     const localAuth =localStorage.getItem('auth')
     const navigate = useNavigate();
-    const wish = localStorage.getItem('wish');
+
     useEffect(()=>{
-        console.log(wish)
         if(localAuth==='true'){
             setAuth(true)
-            setWishCount(wish)
+            wishlistData().then((res)=>{
+                let count = res.length
+                setWishCount(count)
+            })
         }else{
             setAuth(false)
         }

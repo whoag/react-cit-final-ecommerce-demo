@@ -5,7 +5,7 @@ export const reducer = (state, action) => {
                 id: action.id,
                 name: action.name,
                 email: action.email,
-                wishlists: action.wishlists,
+                wishlist: action.wishlist,
                 admin: action.admin,
                 auth: action.auth,
             }
@@ -14,7 +14,7 @@ export const reducer = (state, action) => {
                 id: "",
                 name:"",
                 email: "",
-                wishlists: "",
+                wishlist: "",
                 admin: false,
                 auth: false,
             }
@@ -28,7 +28,7 @@ export const initialState = {
     id: "",
     name: "",
     email: "",
-    wishlists: [],
+    wishlist: "",
     admin: false,
     auth: false,
 }

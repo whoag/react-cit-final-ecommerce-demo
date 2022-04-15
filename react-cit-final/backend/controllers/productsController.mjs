@@ -5,7 +5,6 @@ import asyncHandler from 'express-async-handler'
 
 export const getProducts = asyncHandler(async(req, res) => {
     const users = await Product.find({})
-    console.log(users)
     res.json(users)
 })
 

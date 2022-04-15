@@ -24,8 +24,8 @@ const userSchema = mongoose.Schema({
         required: true,
         default: false
     },
-    wishlist_ids: {
-        type: Array,
+    wishlist: {
+        type: String,
         required: false,
     }
 }, {
