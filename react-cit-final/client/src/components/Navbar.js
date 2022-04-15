@@ -204,9 +204,12 @@ export default function Navbar() {
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
                                     <a href="/wishlist" className="p-2 text-gray-400 hover:text-gray-500">
-                                        <Badge color="error" badgeContent={wishCount}>
-                                            <HeartIcon className="w-6 h-6" aria-hidden="true" />{" "}
-                                        </Badge>
+                                        {auth
+                                            ?<Badge color="error" badgeContent={wishCount}>
+                                                <HeartIcon className="w-6 h-6" aria-hidden="true" />{" "}
+                                             </Badge>
+                                            :""
+                                        }
                                     </a>
                                 </div>
 

@@ -11,11 +11,8 @@ import bcrypt from 'bcrypt'
 import './config/passport.mjs'
 import User from "./models/usersModel.mjs";
 import cors from 'cors'
-import multer from 'multer'
 import Product from "./models/productModel.mjs";
 import path from 'path';
-import * as fs from "fs";
-import {GridFsStorage} from "multer-gridfs-storage";
 //connect database
 connectDB()
 
@@ -36,7 +33,6 @@ app.use(passport.initialize());
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
-//upload params for multer
 
 //Creating API for user
 app.use('/api/users', userRoutes)
@@ -73,6 +69,7 @@ app.post('/api/products', upload.single('image'), async (req, res)=>{
 
     Product.findOne({slug: slug})
 })
+
 app.post('/api/register', jsonParser, function (req, res)  {
     // Form validationconst { errors, isValid } = validateRegisterInput(req.body);// Check validation
     // if (!isValid) {
@@ -110,10 +107,6 @@ app.post('/api/register', jsonParser, function (req, res)  {
 });
 
 app.post('/api/login', jsonParser,(req, res) => {
-    //  const validationconst = validateLoginInput(req);// Check validation
-    // if (!validationconst.isValid) {
-    //     return res.status(400).json(validationconst.errors);
-    // }
     const email = req.body.email;
     const password = req.body.password;// Find user by email
     User.findOne({ email }).then(user => {
