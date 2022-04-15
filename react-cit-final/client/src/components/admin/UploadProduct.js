@@ -5,12 +5,11 @@ import {yupResolver} from "@hookform/resolvers/yup/dist/yup";
 import {useForm} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import FormData from 'form-data'
 import mime from 'mime'
 const categories = [
-    { id: "6240bdc131afc5561dbcc157", name: 'Women', unavailable: false },
-    { id: "6240bd9c31afc5561dbcc156", name: 'Men', unavailable: false },
-    { id: "6240bddd31afc5561dbcc158", name: 'Accessories', unavailable: false },
+    { id: "Womens", name: 'Women', unavailable: false },
+    { id: "Mens", name: 'Men', unavailable: false },
+    { id: "Accessories", name: 'Accessories', unavailable: false },
 ]
 
 export default function UploadProduct() {
@@ -28,12 +27,17 @@ export default function UploadProduct() {
     const navigate = useNavigate()
 
     const onSubmit = data => {
-        const formData = new FormData();
-        formData.append("name:", data.name)
-        formData.append("category_id:", data.category_id)
-        formData.append("price:", data.price)
-        formData.append("description:", value)
-        formData.append("image:", data.image[0], data.image[0].name )
+        // const dataObj = {
+        //     name: data.name,
+        //     category_id: data.category_id,
+        //     price: data.price,
+        //     description: value,
+        //     image: data.image[0]
+        // }
+        // let formData = new FormData(dataObj);
+        // console.log(formData)
+        let form = document.getElementById('productUpload')
+        let formData = new FormData(form);
         console.log(formData)
         axios
             .post(
@@ -87,8 +91,8 @@ export default function UploadProduct() {
                                 <label htmlFor="category" >
                                     Category
                                 </label>
-                                <select name="category_id" id="category" className="w-2/5"
-                                        {...register('category_id')}
+                                <select name="category" id="category" className="w-2/5"
+                                        {...register('category')}
                                 >
                                     <option value="" disabled>Select</option>
                                     {categories.map((category, i)=>(
@@ -130,6 +134,7 @@ export default function UploadProduct() {
                             <div>
                                     <label className="inline-block mb-2 text-gray-500">Image Upload</label>
                                             <input type="file" name="image"
+                                                   id="image"
                                                    {...register('image')}
                                             />
 

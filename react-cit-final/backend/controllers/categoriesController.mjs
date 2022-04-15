@@ -1,10 +1,8 @@
 import Category from '../models/categoryModel.mjs'
 import asyncHandler from 'express-async-handler'
-import connectDB from '../config/db.mjs'
 //getUsers function to get all users
 export const getCategory = asyncHandler(async(req, res) => {
     const users = await Category.find({})
-    console.log(users)
     res.json(users)
 })
 

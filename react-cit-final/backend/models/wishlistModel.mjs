@@ -4,11 +4,12 @@ const wishlistSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
+        default: "My Wishlist"
 
     },
     product_ids: {
         type: Array,
-        required: false
+        required: true
     }
 }, {
     collection: 'wishlist'

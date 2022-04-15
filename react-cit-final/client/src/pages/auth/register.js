@@ -48,7 +48,7 @@ export default function Register() {
                     id: userData._id,
                     name: userData.firstName,
                     email: userData.email,
-                    wishlists: userData.wishlist_ids,
+                    wishlist: userData.wishlist,
                     auth: true,
                     admin: userData.admin
                 })

@@ -4,7 +4,6 @@ import connectDB from '../config/db.mjs'
 //getUsers function to get all users
 export const getUsers = asyncHandler(async(req, res) => {
     const users = await User.find({})
-    console.log(users)
     res.json(users)
 })
 
@@ -21,4 +20,3 @@ export const getUserById  = asyncHandler(async(req, res) => {
         throw new Error('User not found')
     }
 })
-

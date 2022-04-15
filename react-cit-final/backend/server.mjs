@@ -12,8 +12,7 @@ import './config/passport.mjs'
 import User from "./models/usersModel.mjs";
 import cors from 'cors'
 import Product from "./models/productModel.mjs";
-import * as fs from "fs";
-import * as path from "path";
+import path from 'path';
 //connect database
 connectDB()
 
@@ -34,14 +33,44 @@ app.use(passport.initialize());
 const jsonParser = bodyParser.json()
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
+
 //Creating API for user
 app.use('/api/users', userRoutes)
 app.use('/api/categories', categoryRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/wishlist', wishlistRoutes)
+app.use('/api/products/images', express.static('public'))
+
+
+const __dirname = await path.resolve(path.dirname(''));
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({storage: storage})
+app.post('/api/products', upload.single('image'), async (req, res)=>{
+    let slug = req.body.name.replace(/" "/g, "-").toLowerCase()
+
+    let product = new Product({
+        name: req.body.name,
+        description: req.body.description,
+        slug: slug,
+        price: req.body.price,
+        category: req.body.category,
+        image: req.file.originalname
+    });
+    product
+        .save()
+        .catch(err => console.log(err));
+
+    Product.findOne({slug: slug})
+})
 
 app.post('/api/register', jsonParser, function (req, res)  {
-    console.log(req.body)
     // Form validationconst { errors, isValid } = validateRegisterInput(req.body);// Check validation
     // if (!isValid) {
     //     return res.status(400).json(errors);
@@ -59,7 +88,7 @@ app.post('/api/register', jsonParser, function (req, res)  {
                     email: req.body.email,
                     password: req.body.password,
                     admin: false,
-                    wishlist_ids: [],
+                    wishlist: "",
                 });// Hash password before saving in database
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(newUser.password, salt, (err, hash) => {

@@ -18,16 +18,16 @@ const productSchema = mongoose.Schema({
         unique: true
     },
     image: {
-        data: Buffer,
-        contentType: String
+        type: String,
+        required: false
     },
     price: {
-        type: Number,
+        type: String,
         required: true,
 
     },
-    category_id: {
-        type: ObjectId,
+    category: {
+        type: String,
         required: true
     }
 }, {

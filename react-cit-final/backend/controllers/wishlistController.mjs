@@ -1,10 +1,10 @@
 import Wishlist from '../models/wishlistModel.mjs'
 import asyncHandler from 'express-async-handler'
-import connectDB from '../config/db.mjs'
+
+
 //getUsers function to get all users
 export const getWishlist = asyncHandler(async(req, res) => {
     const users = await Wishlist.find({})
-    console.log(users)
     res.json(users)
 })
 
@@ -21,3 +21,29 @@ export const getWishlistById  = asyncHandler(async(req, res) => {
         throw new Error('User not found')
     }
 })
+
+export const createWishlist  = asyncHandler(async(req, res) => {
+    const wishlist = new Wishlist({
+        name: "My Wishlist",
+        product_ids:[]
+    })
+    wishlist.save().catch(err => console.log(0));
+    return res.status(200).json({wishlist})
+
+})
+
+export const addItemToWishlist  = asyncHandler(async(req, res) => {
+    console.log(req.params)
+    const id = req.params.id;
+    const slug = req.params.slug
+    await Wishlist.findByIdAndUpdate(
+        id,
+        {$push: {product_ids: slug}},
+        {safe: true, upsert: true},
+        function(err, doc) {
+                    if(err){
+                       console.log(1)
+                    }
+            })
+})
+

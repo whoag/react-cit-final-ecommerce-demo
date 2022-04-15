@@ -1,4 +1,4 @@
-import { getUsers, getUserById } from "../controllers/userController.mjs";
+import {getUsers, getUserById} from "../controllers/userController.mjs";
 import express from 'express'
 import User from "../models/usersModel.mjs";
 const router = express.Router()
@@ -34,5 +34,4 @@ router.route('/').get(getUsers)
 
 // express router method to create route for getting users by id
 router.route('/:id').get(getUserById)
-
 export default router

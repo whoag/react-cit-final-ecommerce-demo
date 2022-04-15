@@ -28,13 +28,18 @@ export default function Login() {
             )
             .then(response => {
                 let userData = response.data.user;
-
+                let wish;
+                if(userData.wishlist === ""){
+                     wish = undefined
+                }else{
+                    wish= userData.wishlist
+                }
                 dispatch({
                     type: "LOGIN",
                     id: userData._id,
                     name: userData.firstName,
                     email: userData.email,
-                    wishlists: userData.wishlist_ids,
+                    wishlist: wish,
                     auth: true,
                     admin: userData.admin
                 })

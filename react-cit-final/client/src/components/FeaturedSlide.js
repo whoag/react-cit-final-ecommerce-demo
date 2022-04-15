@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Autoplay} from 'swiper';
 import {Swiper, SwiperSlide} from "swiper/react";
 import {ProductData} from "./data/ProductData";
@@ -7,12 +7,32 @@ import ProductCard from "./ProductCard";
 
 import 'swiper/css'
 import 'swiper/css/autoplay';
+import axios from "axios";
 
 
 export default function FeaturedSlide(){
+    const [products, setProducts] = useState([])
+    const [count, setCount] = useState(0);
+
+    let stop = 7;
+
+    useEffect(()=>{
+        const url = `http://localhost:5000/api/products`
+        if(count < 2){
+            axios.get(
+                url,
+                { headers: { 'Access-Control-Allow-Origin': '*'}}
+            ).then((res) =>{
+                setProducts(res.data)
+            })
+        }
+
+        setCount(count+1)
+
+    }, [products])
 
     return(
-        <div className="h-80 max-w-screen pt-6 ">
+        <div className="h-80 max-w-screen my-6 ">
             <Swiper
                 modules={[Autoplay]}
                 slidesPerView={3}
@@ -25,8 +45,8 @@ export default function FeaturedSlide(){
                 }}
                 style={{height: '110%', padding: '2rem 0', width: '75%'}}
             >
-                {
-                    ProductData.map((product, idx) => {
+                {products
+                   ? products.map((product, idx) => {
                         return(
                             <SwiperSlide
                                 key={idx}
@@ -37,16 +57,18 @@ export default function FeaturedSlide(){
                                         {isActive ?
                                             <ProductCard
                                                 key={idx}
-                                                title={product.title}
-                                                image={product.image}
+                                                title={product.name}
+                                                image={`http://localhost:5000/api/products/images/${product.image}`}
                                                 description={product.description}
                                                 price={product.price}
+                                                slug={product.slug}
                                                 active
                                             />
                                             : <ProductCard
                                                 key={idx}
+                                                slug={product.slug}
                                                 title={product.title}
-                                                image={product.image}
+                                                image={`http://localhost:5000/api/products/images/${product.image}`}
                                                 description={product.description}
                                                 price={product.price}
                                             />
@@ -58,6 +80,7 @@ export default function FeaturedSlide(){
                         )
 
                     })
+                    :""
                 }
             </Swiper>
         </div>
