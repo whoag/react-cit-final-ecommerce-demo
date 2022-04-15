@@ -204,12 +204,9 @@ export default function Navbar() {
                                 {/* Search */}
                                 <div className="flex lg:ml-6">
                                     <a href="/wishlist" className="p-2 text-gray-400 hover:text-gray-500">
-                                        {auth
-                                            ?<Badge color="error" badgeContent={wishCount}>
-                                                <HeartIcon className="w-6 h-6" aria-hidden="true" />{" "}
-                                             </Badge>
-                                            :""
-                                        }
+                                        <Badge color="error" badgeContent={wishCount}>
+                                            <HeartIcon className="w-6 h-6" aria-hidden="true" />{" "}
+                                        </Badge>
                                     </a>
                                 </div>
 
@@ -232,41 +229,4 @@ export default function Navbar() {
         </div>
     )
 }
-export const useAnimation = ref => {
-    const springs = useSpring({
-        from: { opacity: 0, transform: "scale(0.8)" },
-        to: [{ opacity: 0.8, transform: "scale(1.0)" }, { opacity: 1 }],
-        ref: ref
-    });
-    return springs;
-};
 
-
-
-const List = ({ drpItem }) => {
-    return (
-            <a
-                className="desktop:text-lg text-sm font-medium text-gray-700 hover:text-secondary-700"
-                href={drpItem.href}
-            >{drpItem.name}</a>
-    );
-};
-const DropdownSection = ({items}) => {
-    let base = 70
-    return (
-        <div className="absolute text-gray-700 bg-white pt-1 w-32">
-            {
-                items.map((item, index) =>{
-                    base = base + 40
-                    return(
-                        <Delay wait={base} key={index}>
-                            <List  drpItem={item} />
-                        </Delay>
-
-                    )
-
-                })
-            }
-        </div>
-    );
-};
