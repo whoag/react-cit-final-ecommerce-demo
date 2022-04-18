@@ -13,6 +13,7 @@ import User from "./models/usersModel.mjs";
 import cors from 'cors'
 import Product from "./models/productModel.mjs";
 import path from 'path';
+import multer from 'multer';
 //connect database
 connectDB()
 
