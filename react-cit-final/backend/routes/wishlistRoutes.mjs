@@ -9,7 +9,7 @@ router.route('/').get(getWishlist)
 // express router method to create route for getting users by id
 router.route('/:id').get(getWishlistById)
 
-router.route('/new').post(createWishlist)
+router.route('/new/:user/:slug').post(createWishlist)
 
 router.route('/add/:id/:slug').post(addItemToWishlist)
 

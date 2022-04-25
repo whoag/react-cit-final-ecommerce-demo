@@ -1,5 +1,6 @@
 import Wishlist from '../models/wishlistModel.mjs'
 import asyncHandler from 'express-async-handler'
+import User from "../models/usersModel.mjs";
 
 
 //getUsers function to get all users
@@ -25,25 +26,52 @@ export const getWishlistById  = asyncHandler(async(req, res) => {
 export const createWishlist  = asyncHandler(async(req, res) => {
     const wishlist = new Wishlist({
         name: "My Wishlist",
-        product_ids:[]
+        product_ids:[req.params.slug]
     })
     wishlist.save().catch(err => console.log(0));
+    const wishId = wishlist.id
+    const userID = req.params.user
+    await User.findByIdAndUpdate(
+        userID,
+        {wishlist: wishId},
+        {safe: true},
+        function(err, doc) {
+            if(err){
+                console.log(1)
+            }
+        }).clone().catch(function err(){
+            return res.status(500)
+    })
     return res.status(200).json({wishlist})
 
 })
 
 export const addItemToWishlist  = asyncHandler(async(req, res) => {
-    console.log(req.params)
     const id = req.params.id;
     const slug = req.params.slug
-    await Wishlist.findByIdAndUpdate(
-        id,
-        {$push: {product_ids: slug}},
-        {safe: true, upsert: true},
-        function(err, doc) {
-                    if(err){
-                       console.log(1)
-                    }
-            })
+     if(await checkDuplicate(id,slug)){
+         await Wishlist.findByIdAndUpdate(
+             id,
+             {$push: {product_ids: slug}},
+             {safe: true, upsert: true},
+             function(err, doc) {
+                 if(err){
+                     console.log(1)
+                 }
+             }).then(()=>{
+             return res.status(200)
+         })
+     }else{
+         return res.status(200).json("Product already in wishlist")
+     }
+
 })
 
+async function checkDuplicate(id, slug){
+    const wishlist = await Wishlist.findById(id)
+
+    const products = wishlist.product_ids
+
+    return !products.includes(slug);
+
+}

@@ -11,26 +11,31 @@ export default function ProductCard({title, image, description, price, active, s
 
    async function addToWishList() {
         setHeart(true)
-       if(localStorage.getItem('wish') === 'undefined' || localStorage.getItem('wish') === ''){
-            await axios.post(
-               `http://localhost:5000/api/wishlist/new`,
-               { headers: { 'Access-Control-Allow-Origin': '*'}}
-           ).then((wish)=>{
-               localStorage.setItem('wish', wish.data.wishlist._id)
-           })
+       if(localStorage.getItem('auth') === 'true'){
+           if(localStorage.getItem('wish') === 'undefined' || localStorage.getItem('wish') === '' ){
+               const user = localStorage.getItem('id')
+               await axios.post(
+                   `http://localhost:5000/api/wishlist/new/${user}/${slug}`,
+                   "",
+                   { headers: { 'Access-Control-Allow-Origin': '*'}, params: {user: user, slug:slug}}
+               ).then((wish)=>{
+                   localStorage.setItem('wish',wish.data.wishlist._id)
+               })
+           }
+           else if(localStorage.getItem('wish') !== '' || localStorage.getItem('wish') !== 'undefined'){
+               const wishId = localStorage.getItem('wish')
+               await axios.post(
+                   `http://localhost:5000/api/wishlist/add/${wishId}/${slug}`,
+                   "",
+                   { headers: { 'Access-Control-Allow-Origin': '*'}, params:{id:wishId, slug: slug}}
+               ).then((res)=>{
+
+               }).catch((err)=>{
+                   console.log(err)
+               })
+           }
        }
-        if(localStorage.getItem('wish') !== '' || localStorage.getItem('wish') !== 'undefined'){
-            const wishId = localStorage.getItem('wish')
-            await axios.post(
-                `http://localhost:5000/api/wishlist/add/${wishId}/${slug}`,
-                "",
-                { headers: { 'Access-Control-Allow-Origin': '*'}, params:{id:wishId, slug: slug}}
-            ).then((res)=>{
-                console.log('res')
-            }).catch((err)=>{
-                console.log(err)
-            })
-        }
+
 
 
     }

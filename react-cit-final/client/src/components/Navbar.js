@@ -34,17 +34,20 @@ export default function Navbar() {
     const localAuth =localStorage.getItem('auth')
     const navigate = useNavigate();
 
+    const getWishCount = async ()=>{
+       await wishlistData().then((res)=>{
+            let count = res.length
+            setWishCount(count)
+        })
+    }
     useEffect(()=>{
         if(localAuth==='true'){
             setAuth(true)
-            wishlistData().then((res)=>{
-                let count = res.length
-                setWishCount(count)
-            })
+            getWishCount()
         }else{
             setAuth(false)
         }
-    }, [localAuth, wishCount])
+    }, [])
 
     const signOut=()=>{
         localStorage.setItem('auth', 'false')
